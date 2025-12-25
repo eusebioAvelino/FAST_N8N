@@ -1,8 +1,13 @@
 #recibir mebsaje de whasat
 
+import uvicorn as aplicacion
+import logging
 from fastapi import FastAPI
 from pydantic import BaseModel
-import uvicorn as aplicacion
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 app = FastAPI()
 
 class Mensaje(BaseModel):
@@ -10,7 +15,7 @@ class Mensaje(BaseModel):
 
 @app.post("/webhook/n8n")
 async def recibir_mensaje(data: Mensaje):
-    print("Texto recibido:", data.texto)
+    logger.info(f"📩 Texto recibido desde n8n: {data.texto}")
     return {
         "status": "ok",
         "recibido": data.texto
