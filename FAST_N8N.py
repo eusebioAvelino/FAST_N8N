@@ -1,27 +1,21 @@
-
-import uvicorn as aplicacion 
+#recibir mebsaje de whasat
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List
-
+import uvicorn as aplicacion
 app = FastAPI()
 
-class Job(BaseModel):
-    title: str
-    company: str
-    link: str
-    date: str
+class Mensaje(BaseModel):
+    texto: str
 
-class JobsPayload(BaseModel):
-    items: List[Job]
-
-@app.post("/n8n")
-async def recibir_n8n(payload: JobsPayload):
+@app.post("/webhook/n8n")
+async def recibir_mensaje(data: Mensaje):
+    print("Texto recibido:", data.texto)
     return {
-        "total": len(payload.items),
-        "jobs": payload.items
+        "status": "ok",
+        "recibido": data.texto
     }
+
 
 if __name__ == "__main__":
     aplicacion.run("FAST_N8N:app", host="0.0.0.0", port=8000, reload=True) 
