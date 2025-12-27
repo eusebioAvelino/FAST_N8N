@@ -7,12 +7,12 @@ from pydantic import BaseModel
 app = FastAPI()
 
 class MessageIn(BaseModel):
-    message: str
+    output: str
 
 @app.post("/from-n8n")
 async def from_n8n(data: MessageIn):
-    print("Mensaje recibido desde n8n:", data.message)
-    return {"status": "ok", "respuesta": f"Recibido: {data.message}"}
+    print("Mensaje recibido desde n8n:", data.output)
+    return {"status": "ok", "respuesta": f"Recibido: {data.output}"}
 
 
 
